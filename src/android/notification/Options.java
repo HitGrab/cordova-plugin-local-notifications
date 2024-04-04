@@ -476,6 +476,23 @@ public final class Options {
     }
 
     /**
+     * Get the volume
+     */
+    public Integer getVolume() {
+        return options.optInt("alarmVolume", VOLUME_NOT_SET);
+    }
+
+    /**
+     * Returns the resetDelay until the sound changes revert back to the users
+     * settings.
+     *
+     * @return resetDelay
+     */
+    public Integer getResetDelay() {
+        return options.optInt("resetDelay", DEFAULT_RESET_DELAY);
+    }
+
+    /**
      * If the phone should vibrate.
      */
     public boolean isWithVibration() {

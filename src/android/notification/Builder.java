@@ -202,7 +202,7 @@ public final class Builder {
             }
         }
         //endregion
-        //
+
         if (options.useFullScreenIntent()) {
             applyFullScreenIntent(builder);
         }
@@ -217,6 +217,31 @@ public final class Builder {
 
     void applyFullScreenIntent(NotificationCompat.Builder builder) {
         String pkgName  = context.getPackageName();
+
+        Intent intent = context
+            .getPackageManager()
+            .getLaunchIntentForPackage(pkgName)
+            .putExtra("launchNotificationId", options.getId());
+
+        int reqCode = random.nextInt();
+        // request code and flags not added for demo purposes
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, reqCode, intent, FLAG_UPDATE_CURRENT);
+
+        builder.setFullScreenIntent(pendingIntent, true);
+    }
+
+    /**
+     * Convert a bitmap to a circular bitmap.
+     * This code has been extracted from the Phonegap Plugin Push plugin:
+     * https://github.com/phonegap/phonegap-plugin-push
+     *
+     * @param bitmap Bitmap to convert.
+     * @return Circular bitmap.
+     */
+    private Bitmap getCircleBitmap(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
 
         Intent intent = context
             .getPackageManager()
